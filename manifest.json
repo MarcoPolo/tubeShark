@@ -1,0 +1,23 @@
+{
+	"name": "tubeShark",
+	"version": "1.0",
+
+	"description": "Automagically controls grooveshark when watching youtube videos! Gone are the days of switching tabs to pause and then remember to play again!",
+	"permissions": [
+		"tabs",
+		"notifications",
+		"contextMenus",
+		"http://*.grooveshark.com/"
+	],
+	"background_page": "html/bg.html",
+	"content_scripts": [
+		{
+			"matches": ["*://listen.grooveshark.com/*"],
+			"js": ["js/injectShark.js"],
+			"all_frames": true,
+			"matches": ["*://www.youtube.com/*"],
+			"js": ["js/injectTube.js"],
+			"all_frames": true
+		}
+	]
+}
