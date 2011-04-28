@@ -3,33 +3,32 @@ var testvar = 'hi';
 console.log("hello world");
 
 var k = setTimeout(realMain, 2000);
+isGSPaused = true;
+
+
 function realMain(){
-  //var k = setTimeout(function () {console.log('hi');}, 5000);
-//var t = setTimeout('movie.pauseVideo();', 5000);
-
-
 //here goes the code to modify the play pause
 //
 //playing is = 1
 //paused is = 2
 
-//document.write('lol');
-//function main(){
-
-//	window.youDidSomething = 
 function doWhat(statusNum){
- console.log('HIHIHIHI');
  console.log(statusNum);
- if(statusNum == 1){
+ if(!isGSPaused && statusNum == 1 ){
    rememberToPause();
- }else if(statusNum == 2){
+   isGSPaused=true;
+ }else if(isGSPaused && statusNum == 2){
    rememberToPlay();
- }else if(statusNum == 5){
+   isGSPaused=false;
+ }else if(!isGSPaused && statusNum == 5){
    rememberToPause();
- }else if(statusNum == 0){
+   isGSPaused=true;
+ }else if(isGSPaused && statusNum == 0){
    rememberToPlay();
- }else if(statusNum == 3){
+   isGSPaused=false;
+ }else if(!isGSPaused && statusNum == 3){
    rememberToPause();
+   isGSPaused=true;
  }else{
  }
 }
@@ -41,7 +40,6 @@ function rememberToPause(){
 
   //      window.rememberToPlay =
 function rememberToPlay(){
-	playStatus.innerText = 2;
   chrome.extension.sendRequest({'command':'resumeShark'});
 }
 //	window.test = 
@@ -51,13 +49,11 @@ function test(state){
 }
  //       window.addlist = 
 function addlist(){
-  //alert("add list started");
   var movie = document.getElementById('movie_player');
   console.log(movie);
   movie.addEventListener("onStateChange", "youDidSomething");
   rememberToPause();
   console.log(movie.getDuration());
- // chrome.extension.sendRequest('fbchafoaegcphhfipeofkchobadmmick',{'command':'resumeSong'});
 }
 
 function main(){

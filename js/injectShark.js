@@ -18,6 +18,8 @@ function inject(main){
 
 function main(){
     inject(play);
+	console.log('it lives');
+
 }
 chrome.extension.onRequest.addListener(
 		  function(request, sender, sendResponse) {
@@ -35,4 +37,5 @@ chrome.extension.onRequest.addListener(
 		      else
 		        sendResponse({}); // snub them.
 		    });
-var t = setTimeout(main, 3000);
+console.log('O hai There!');
+var t = setTimeout(main, 1000);
