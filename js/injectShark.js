@@ -19,23 +19,27 @@ function inject(main){
 function main(){
     inject(play);
 	console.log('it lives');
-
+	console.log(this.tabs);
+	console.log(this.tab);
+	console.log(this);
+	//this is here so that the background page can find grooveshark when it has loaded
+	chrome.extension.sendRequest({'gsTab':'findMePlz'});
+	
 }
-chrome.extension.onRequest.addListener(
-		  function(request, sender, sendResponse) {
-		      console.log(sender.tab ?
-			                      "from a content script:" + sender.tab.url :
-					                      "from the extension");
-		      if (request.command == "resumeShark"){
-                        inject(play);
-		        sendResponse({});
-		      }
-                      else if ( request.command == "pauseShark"){
-		        inject(pause);
-			sendResponse({});
-		      }
-		      else
-		        sendResponse({}); // snub them.
-		    });
+
+function recRequest(request, sender, sendResponse){
+	console.log(request.command);
+	if(request.command =="resumeShark"){
+		inject(play);
+	}
+	if(request.command == "pauseShark"){
+		inject(pause);
+	}
+}
+
+
+
+chrome.extension.onRequest.addListener(recRequest);
+
 console.log('O hai There!');
-var t = setTimeout(main, 1000);
+var t = setTimeout(main, 4000);
