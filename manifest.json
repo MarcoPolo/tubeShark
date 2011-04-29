@@ -10,7 +10,10 @@
 		"tabs",
 		"notifications",
 		"contextMenus",
-		"http://*.grooveshark.com/"
+		"http://*.grooveshark.com/",
+		"*://grooveshark.com/*",
+		"http://*.youtube.com/"
+		
 	],
 	"background_page": "html/bg.html",
 	"content_scripts": [
@@ -18,7 +21,7 @@
 			"matches": ["*://grooveshark.com/*"],
 			"js": ["js/injectShark.js"],
 			"run_at": "document_end",
-			"all_frames": false
+			"all_frames": true
 		},{
 			"matches": ["*://www.youtube.com/*"],
 			"js": ["js/injectTube.js"],
