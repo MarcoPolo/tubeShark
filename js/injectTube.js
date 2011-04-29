@@ -77,7 +77,7 @@ playing = document.getElementById('playing');
 
 
 
-setInterval(getSt, 100);
+setInterval(getSt, 500);
 
 var playStatus = document.createElement('div');
 playStatus.id = "playing";
