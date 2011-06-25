@@ -48,33 +48,45 @@ function realMain(){
 
     function main(){
         window.youDidSomething = function(state){
-            //console.log('youDidSomething' + state);
-            playing = document.getElementById('playing');
-            playing.innerText= state; 
-            :
+            if (state == 2){ 
+                var resumeShark = document.createEvent("Events");
+                resumeShark.initEvent("resumeShark",true,false); 
+                document.dispatchEvent(resumeShark);
+            }
+            if (state == 1){
+                var pauseShark = document.createEvent("Events");
+                pauseShark.initEvent("pauseShark",true,false);
+                document.dispatchEvent(pauseShark);
+            }
         }
+
+        window.onunload = function(){
+            var resumeShark = document.createEvent("Events");
+            resumeShark.initEvent("resumeShark",true,false); 
+            document.dispatchEvent(resumeShark);
+        }
+        
     }
 
     //this gets the element status (status describes whether the video is playing) within the page
     function getSt(){
         playing = document.getElementById('playing');
-        //console.log('getSt: ' + playing.innerText);
         doWhat(parseInt(playing.innerText));
     }
 
+    function inject(main){
+        var script = document.createElement('script');
+        script.appendChild(document.createTextNode('('+ main +')();'));
+        (document.body || document.head || document.documentElement).appendChild(script);
+    }
+
+    function listenForChange(){
+        window.addEventListener("pauseShark", function(){console.log('pausing Grooveshark'); rememberToPause();}, false, true);
+        window.addEventListener("resumeShark", function(){console.log('playing Grooveshark'); rememberToPlay();}, false, true);
+    }
+
     addlist();
-    setInterval(getSt, 500);
+    listenForChange();
+    inject(main);
 
-    var playStatus = document.createElement('div');
-    playStatus.id = "playing";
-    playStatus.innerText='lol';
-
-
-
-    (document.body || document.head || document.documentElement).appendChild(playStatus);
-
-
-    var script = document.createElement('script');
-    script.appendChild(document.createTextNode('('+ main +')();'));
-    (document.body || document.head || document.documentElement).appendChild(script);
 }

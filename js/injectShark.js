@@ -51,8 +51,12 @@ function findActiveGS(){
     chrome.extension.sendRequest({'gsTab':'findActive'});
 }
 
+function tellbgGSPaused(){
+    chrome.extension.sendRequest({'gsTab':'isGSPaused'});
+}
+
 window.addEventListener("playing", function(){console.log('playing'); findActiveGS();}, false, true);
-window.addEventListener("paused", function(){console.log('paused');}, false, true);
+window.addEventListener("paused", function(){console.log('paused'); tellbgGSPaused();}, false, true);
 
 chrome.extension.onRequest.addListener(recRequest);
 
