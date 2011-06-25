@@ -35,7 +35,7 @@ chrome.extension.onRequest.addListener(
 						//findId();
 				}
 
-				if (request.command == 'findActive'){
+				if (request.gsTab == 'findActive'){
                     gsTab = sender.tab.id;
                     console.log('Active GS is ', gsTab);
                 }

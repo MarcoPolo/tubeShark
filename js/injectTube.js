@@ -51,6 +51,7 @@ function realMain(){
             //console.log('youDidSomething' + state);
             playing = document.getElementById('playing');
             playing.innerText= state; 
+            :
         }
     }
 
