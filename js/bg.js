@@ -28,46 +28,47 @@ function findId(){
 
 
 chrome.extension.onRequest.addListener(
-		  function(request, sender, sendResponse) {
-		      console.log(sender.tab ?
-			                      "from a content script:" + sender.tab.url + ' and the tab info is ' + sender.tab :
-					                      "from the extension");
-              console.log('sender tab id is ', sender.tab.id);
-              
-              chrome.tabs.getSelected(null, function(tab) { currentTab=tab.id; });
+    function(request, sender, sendResponse) {
+        console.log(sender.tab ?
+            "from a content script:" + sender.tab.url + ' and the tab info is ' + sender.tab :
+            "from the extension");
+            console.log('sender tab id is ', sender.tab.id);
+            currentTab=sender.tab.id;
 
-				if (request.gsTab == 'findMePlz'){
+            switch (request.gsTab){
+                case 'findMePlz':
 					console.log('finding the shark, plz hold')
 					intervalId=setInterval(findId, 100);
-						//findId();
-				}
-
-				if (request.gsTab == 'findActive'){
+                    break;
+                case 'findActive':
                     gsTab = sender.tab.id;
                     //clear the isGSPaused boolean
                     if(currentTab == gsTab){
                         isGSPaused = false;
                     }
                     console.log('Active GS is ', gsTab);
-                }
-
-				if (gsTab==0){
-				   console.log('GS has not been opened');
-				}
-                if (request.gsTab == 'isGSPaused'){
+                    break;
+                case 'isGSPaused':
                     //if the sender of the request and the
                     if(currentTab == gsTab){
                         isGSPaused = true;
                     }
-                }
-				if (!isGSPaused && request.command == "resumeShark"){
-                    chrome.tabs.sendRequest(gsTab, {command: "resumeShark"});
-                    sendResponse({});
-		        }else if ( request.command == "pauseShark"){
+                    break;
+            }
+            switch (request.command){
+                case 'resumeShark':
+                    if (isGSPaused){
+                        chrome.tabs.sendRequest(gsTab, {command: "resumeShark"});
+                        sendResponse({});
+                    }
+                    break;
+                case 'pauseShark':
                     chrome.tabs.sendRequest(gsTab, {command: "pauseShark"});
                     sendResponse({});
-				}else{
+                    break;
+                default:
                     sendResponse({}); // snub them.
-                    console.log(request);
-				}
-		});
+                    break;
+        }
+    }
+);
