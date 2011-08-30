@@ -57,10 +57,8 @@ chrome.extension.onRequest.addListener(
             }
             switch (request.command){
                 case 'resumeShark':
-                    if (isGSPaused){
                         chrome.tabs.sendRequest(gsTab, {command: "resumeShark"});
                         sendResponse({});
-                    }
                     break;
                 case 'pauseShark':
                     chrome.tabs.sendRequest(gsTab, {command: "pauseShark"});

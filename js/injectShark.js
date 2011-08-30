@@ -23,7 +23,7 @@ function fadingStuff(){
             }
         }else{
             fadeIn ? start+=5 : start-=5;
-            setTimeout("GS.player.fadeVol("+start+", "+end+","+ fadeIn+")",100);
+            setTimeout("GS.player.fadeVol("+start+", "+end+","+ fadeIn+")",50);
             GS.player.setVolume(start);
         }
     }
