@@ -19,7 +19,7 @@
     "options_page": "html/opt.html",
 	"content_scripts": [
 		{
-			"matches": ["*://grooveshark.com/*"],
+			"matches": ["*://*.grooveshark.com/*"],
 			"js": ["js/injectShark.js"],
 			"run_at": "document_end",
 			"all_frames": true

@@ -1,6 +1,5 @@
 //script to inject into youtube
-var k = setTimeout(realMain, 2000);
-isGSPaused = true;
+var k = setTimeout(realMain, 2000); //wait for youtube to load
 
 RESUME = 1;
 PAUSE = 2;
@@ -11,27 +10,17 @@ function realMain(){
     function doWhat(statusNum){
         //console.log(statusNum);
 
-        if (!isGSPaused){
-
-            switch (statusNum){
-                case RESUME:
-                case 5:
-                case 0:
-                case 3:
-                    rememberToPause();
-                    isGSPaused=true;
-                    break;
-            }
-
-        }else{
-
-            switch (statusNum){
-                case PAUSE:
-                case 0:
-                    rememberToPlay();
-                    isGSPaused=false;
-                    break;
-            }
+        switch (statusNum){
+            case RESUME:
+            case 5:
+            case 0:
+            case 3:
+                rememberToPause();
+                break;
+            case PAUSE:
+            case 0:
+                rememberToPlay();
+                break;
         }
     }
 
@@ -45,10 +34,9 @@ function realMain(){
 
     function addlist(){
         var movie = document.getElementById('movie_player');
-        //console.log(movie);
         movie.addEventListener("onStateChange", "youDidSomething");
+        //lets pause GS as the video begins
         rememberToPause();
-        //console.log(movie.getDuration());
     }
 
     function main(){
@@ -93,5 +81,4 @@ function realMain(){
     addlist();
     listenForChange();
     inject(main);
-
 }

@@ -1,6 +1,9 @@
 //script that injects into grooveshark
 
 
+//--------------- Experimental
+//Experimental function to create a fading effect. 
+//Will probably not get implemented because chrome slows down js intervals in background tabs to 1s
 function fadingStuff(){
 
     GS.player.fadeIn=fadeIn;
@@ -43,39 +46,42 @@ function fadingStuff(){
     }
     return fadeObj;
 }
+// ----------- End of Experimental Feature
 
 function play(){
     //console.log("tubeShark resuming!");
-    GS.player.fadeIn();
+    //GS.player.fadeIn();
+    GS.player.resumeSong();
 }
 function pause(){
     //console.log("tubeShark pausing!");
-    GS.player.fadeOut();
+    //GS.player.fadeOut();
+    GS.player.pauseSong();
 
 }
 
-function inject(main){
+function inject(content){
     var script = document.createElement('script');
-    script.appendChild(document.createTextNode('('+ main +')();'));
+    script.appendChild(document.createTextNode('('+ content +')();'));
     (document.body || document.head || document.documentElement).appendChild(script);
 }
 
 function main(){
-	//console.log('it lives');
 	//this is here so that the background page can find grooveshark when it has loaded
-	//chrome.extension.sendRequest({'gsTab':'findMePlz'});
     console.log('well hello there!',localStorage["timeDelay"]);
+
+    //inject is mean to inject script content into the page
     inject(addGSListener);
-    inject(fadingStuff);
+    //inject(fadingStuff);
 	
 }
 
 function recRequest(request, sender, sendResponse){
 	//console.log(request.command);
+    //This is to receive request from the extension, and then inject commands
 	if(request.command =="resumeShark"){
 		inject(play);
-        //fadingStuff().fadeIn
-        console.log('this is from the request telling you to play!');
+        //console.log('this is from the request telling you to play!');
 	}
 	if(request.command == "pauseShark"){
 		inject(pause);
@@ -102,7 +108,7 @@ function findActiveGS(){
 }
 
 function tellbgGSPaused(){
-    chrome.extension.sendRequest({'gsTab':'isGSPaused'});
+    chrome.extension.sendRequest({'gsTab':'GSisPaused'});
 }
 
 function findTimeDelay(){
