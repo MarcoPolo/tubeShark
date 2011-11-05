@@ -50,12 +50,10 @@ function fadingStuff(){
 
 function play(){
     //console.log("tubeShark resuming!");
-    //GS.player.fadeIn();
     GS.player.resumeSong();
 }
 function pause(){
     //console.log("tubeShark pausing!");
-    //GS.player.fadeOut();
     GS.player.pauseSong();
 
 }
@@ -67,50 +65,49 @@ function inject(content){
 }
 
 function main(){
-	//this is here so that the background page can find grooveshark when it has loaded
     console.log('well hello there!',localStorage["timeDelay"]);
 
-    //inject is mean to inject script content into the page
+    //inject the listener to follow the GS play/pause activity
     inject(addGSListener);
-    //inject(fadingStuff);
 	
 }
 
 function recRequest(request, sender, sendResponse){
-	//console.log(request.command);
     //This is to receive request from the extension, and then inject commands
 	if(request.command =="resumeShark"){
-		inject(play);
-        //console.log('this is from the request telling you to play!');
+        setTimeout("inject(play)",request.timeDelay);
 	}
 	if(request.command == "pauseShark"){
-		inject(pause);
+        inject(pause);
+		//inject(pause);
 	}
 }
 
 function addGSListener(){
+
     playStatus = GS.player.isPlaying;
     var playingEv = document.createEvent("Events");
     var pausingEv = document.createEvent("Events");
     pausingEv.initEvent("paused",true,false); 
     playingEv.initEvent("playing",true,false); 
-    $.subscribe("gs.player.playstatus", function(){ 
-        if (GS.player.isPlaying != playStatus) {
-            playStatus = GS.player.isPlaying;
-            playStatus ? document.dispatchEvent(playingEv) : document.dispatchEvent(pausingEv);
-        }
+
+    $('#player_play_pause').click(function(){
+        //This is tricky becuase at the time this is checked the isPlaying is still on the last state so we have to flip to logic
+        !GS.player.isPlaying ? document.dispatchEvent(playingEv) : document.dispatchEvent(pausingEv);
     });
 }
 
-//This function finds the active GS window
+//This function tells the extension to look for this GS tab by sending a request
 function findActiveGS(){
     chrome.extension.sendRequest({'gsTab':'findActive'});
 }
 
+//This function is used to tell the extension that GS was manually paused
 function tellbgGSPaused(){
     chrome.extension.sendRequest({'gsTab':'GSisPaused'});
 }
 
+//function to specify a time delay 
 function findTimeDelay(){
     chrome.extension.sendRequest({'gsTab':'getTimeDelay'});
     console.log(response.data);
@@ -127,4 +124,4 @@ window.addEventListener("paused", function(){
 
 chrome.extension.onRequest.addListener(recRequest);
 console.log("               __\n              / *_) < LOL Tubeshark\n     _.----._/ /\n    /         /\n __/ (  | (  |\n/__.-'|_|--|_|\n");
-var t = setTimeout(main, 4000)
+setTimeout(main, 4000)

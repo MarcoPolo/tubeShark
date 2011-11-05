@@ -1,10 +1,10 @@
 //script to inject into youtube
-var k = setTimeout(realMain, 2000); //wait for youtube to load
+setTimeout(waitforit, 2000); //wait for youtube to load
 
 RESUME = 1;
 PAUSE = 2;
 
-function realMain(){
+function waitforit(){
     //Modify play and pause
 
     function doWhat(statusNum){
