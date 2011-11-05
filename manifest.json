@@ -18,7 +18,7 @@
 	"background_page": "html/bg.html",
 	"content_scripts": [
 		{
-			"matches": ["*://grooveshark.com/*"],
+			"matches": ["*://*.grooveshark.com/*"],
 			"js": ["js/injectShark.js"],
 			"run_at": "document_end",
 			"all_frames": true
