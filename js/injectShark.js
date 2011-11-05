@@ -13,6 +13,8 @@ function fadingStuff(){
         , 'fadeVol':fadeVol
     }
 
+    intvl = 100/8;
+
     function fadeVol(start, end, fadeIn){
         //if it is fading in the end volume is going to be bigger than the start
         //console.log('start',start,'end',end);       
@@ -22,7 +24,7 @@ function fadingStuff(){
                 GS.player.setVolume(100);
             }
         }else{
-            fadeIn ? start+=5 : start-=5;
+            fadeIn ? start+=intvl : start-=intvl;
             setTimeout("GS.player.fadeVol("+start+", "+end+","+ fadeIn+")",50);
             GS.player.setVolume(start);
         }
@@ -62,6 +64,7 @@ function main(){
 	//console.log('it lives');
 	//this is here so that the background page can find grooveshark when it has loaded
 	//chrome.extension.sendRequest({'gsTab':'findMePlz'});
+    console.log('well hello there!',localStorage["timeDelay"]);
     inject(addGSListener);
     inject(fadingStuff);
 	
@@ -100,6 +103,11 @@ function findActiveGS(){
 
 function tellbgGSPaused(){
     chrome.extension.sendRequest({'gsTab':'isGSPaused'});
+}
+
+function findTimeDelay(){
+    chrome.extension.sendRequest({'gsTab':'getTimeDelay'});
+    console.log(response.data);
 }
 
 window.addEventListener("playing", function(){

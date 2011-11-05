@@ -16,6 +16,7 @@
 		
 	],
 	"background_page": "html/bg.html",
+    "options_page": "html/opt.html",
 	"content_scripts": [
 		{
 			"matches": ["*://grooveshark.com/*"],

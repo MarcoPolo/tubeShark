@@ -54,6 +54,9 @@ chrome.extension.onRequest.addListener(
                         isGSPaused = true;
                     }
                     break;
+                case 'getTimeDelay':
+                    sendResponse({timeDelay:localStorage['timeDelay']});
+                    break;
             }
             switch (request.command){
                 case 'resumeShark':
