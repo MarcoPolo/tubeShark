@@ -74,8 +74,14 @@ function waitforit(){
     }
 
     function listenForChange(){
-        window.addEventListener("pauseShark", function(){console.log('pausing Grooveshark'); rememberToPause();}, false, true);
-        window.addEventListener("resumeShark", function(){console.log('playing Grooveshark'); rememberToPlay();}, false, true);
+        window.addEventListener("pauseShark", function(){
+            rememberToPause();
+        }, false, true);
+
+        window.addEventListener("resumeShark", function(){
+            console.log('playing Grooveshark');
+            rememberToPlay();
+        }, false, true);
     }
 
     addlist();
